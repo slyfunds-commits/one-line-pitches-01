@@ -42,6 +42,21 @@ def main() -> None:
     assert "?" not in written and "!" not in written, "entry must be one sentence"
     # The only other period is the one inside "make.fun".
     assert written.count(".") == 2, "entry must be one sentence"
+    # Brief invariants, checked in code so a later edit cannot silently
+    # break them: the number sits in the first five words, the product term
+    # is "bounty" (never "prize"), the selection rule is stated, and the
+    # low-risk close appears exactly once, as the last words.
+    words = written.split()
+    assert "$50" in words[:5], "number must be in the first five words"
+    assert written.count("bounty") == 1, "say bounty once"
+    assert "prize" not in written, "never say prize"
+    assert "the best entry wins" in written, "state the selection rule"
+    assert written.count("you pay only the winner") == 1, "close once"
+    assert written.endswith("you pay only the winner."), "close is last"
+    print(
+        f"entry ok: {len(written)} chars, "
+        f"{len(raw)} bytes, one sentence"
+    )
 
 
 if __name__ == "__main__":
